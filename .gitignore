@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ProjectEvaluation/web application.metadata.v7.bin
+/.vs
+/Models/bin/Debug/net7.0
+/Models/obj/Debug/net7.0
+/Models/obj
+/Web Application/bin/Debug/net7.0
+/Web Application/obj

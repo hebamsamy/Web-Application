@@ -6,8 +6,10 @@ namespace Web_Application.Controllers
     {
         public ViewResult Index()
         {
-            return View("PendingPage");
+            return View();
+            //return View("PendingPage");
         }
+
         //public ViewResult ContactU
     }
 }

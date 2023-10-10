@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.Extensions.FileProviders;
+using Models;
 using Web_Application;
 
 public class Program
@@ -27,7 +28,13 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         var webApp = builder.Build();
-        webApp.MapControllerRoute("Default","{Controller=Product}/{Action=Index}/{ID?}");
+        webApp.UseStaticFiles(new StaticFileOptions()
+        {
+            FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory() + "/Content"),
+            RequestPath = ""
+
+        });
+        webApp.MapControllerRoute("Default","{Controller=Product}/{Action=Index}/{id?}");
         webApp.Run();
 
 

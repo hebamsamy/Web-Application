@@ -11,4 +11,9 @@
     <ProjectReference Include="..\..\..\..\..\Models\Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+    <Folder Include="Content\NewFolder\" />
+  </ItemGroup>
+
 </Project>

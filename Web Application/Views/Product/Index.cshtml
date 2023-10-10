@@ -1,1 +1,30 @@
-﻿<h1>Explore Our Products</h1>
+﻿@using Models;
+@model List<Product>
+
+@{
+    Layout = "_layout";
+}
+
+
+<h1 class="display-1 mb-2">Explore Our Products</h1>
+
+<div class="row">
+
+
+    @foreach (Product item in Model)
+    {
+        <div class="card col-4">
+            <img src="/Images/@item.ProductAttachments.FirstOrDefault()?.Image" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <p class="card-text">@item.Price $</p>
+                <p class="card-text">@item.Category.Name</p>
+                <a href="/Product/GetOne/@item.ID" class="btn btn-primary">See Details</a>
+            </div>
+        </div>
+    }
+
+
+
+</div>

@@ -27,17 +27,6 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         var webApp = builder.Build();
-        //webApp.UseMiddleware<ProductMiddleWare>();
-        //webApp.HandelProductRequest();
-        ////webApp.HandelProductRequest();
-
-
-        //webApp.Run( async context => {
-        //    if (context.Request.Path == "/")
-        //    {
-        //        await context.Response.WriteAsync("<h1>Welcome to ASP.NET World</h1>");
-        //    }
-        //});
         webApp.MapControllerRoute("Default","{Controller=Product}/{Action=Index}/{ID?}");
         webApp.Run();
 

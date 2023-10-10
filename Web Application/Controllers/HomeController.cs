@@ -9,6 +9,10 @@ namespace Web_Application.Controllers
             return View();
             //return View("PendingPage");
         }
+        public IActionResult PendingPage()
+        {
+            return View();
+        }
 
         //public ViewResult ContactU
     }

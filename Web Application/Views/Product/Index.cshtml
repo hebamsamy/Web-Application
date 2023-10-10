@@ -2,15 +2,19 @@
 @model List<Product>
 
 @{
-    Layout = "_layout";
+    List<string> temp = ViewData["Categories"] as List<string>;
 }
 
-
 <h1 class="display-1 mb-2">Explore Our Products</h1>
+@section Sidebar{
+    <h1 class="lead mb-2 red">Welcome @ViewData["User"]</h1>
+    @foreach (var item in temp)
+    {
+    <p class="lead">@item</p>  
+    }
+}
 
 <div class="row">
-
-
     @foreach (Product item in Model)
     {
         <div class="card col-4">
@@ -24,7 +28,8 @@
             </div>
         </div>
     }
-
-
-
 </div>
+
+@section StylingSection{
+    <link rel="stylesheet" href="/css/product.css" />
+}

@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Content\Images\" />
-    <Folder Include="Content\NewFolder\" />
+    <Folder Include="Content\Js\" />
   </ItemGroup>
 
 </Project>

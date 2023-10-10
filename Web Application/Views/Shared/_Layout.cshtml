@@ -1,10 +1,12 @@
 ﻿
 <!Doctype html>
 <html>
-    <head>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
-    </head>
-    <body>
+<head>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <title>@ViewBag.Title</title>
+    @RenderSection("StylingSection",false)
+</head>
+<body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">E-Store</a>
@@ -30,9 +32,24 @@
         </div>
     </nav>
 
-    <main class="container">
-        @RenderBody()
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-3 bg-light text-dark">
+                @RenderSection("Sidebar")
+            </div>
+            <div class="col-9">
+                @RenderBody()
+            </div>
+
+        </div>
     </main>
+    <footer class="container">
+        <div class="text-center">
+            Copyrights &copy; - @DateTime.Now.Year
+        </div>
+    </footer>
     <script src="/bootstrap/js/bootstrap.bundle.js"></script>
-    </body>
+    @RenderSection("ScriptingSection",false)
+
+</body>
 </html>

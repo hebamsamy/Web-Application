@@ -9,23 +9,26 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">E-Store</a>
+            <a class="navbar-brand" href="/home/index">E-Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/home/index">Home</a>
+                        <a class="nav-link active" aria-current="page" asp-action="index" asp-controller="home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/ContactUs">Contact Us</a>
+                        <a class="nav-link" asp-route="Contactus" >Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/AboutUs">About Us</a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Aboutus">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Product/index">Products</a>
+                        <a class="nav-link" asp-controller="Product" asp-action="index">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="Add">Add Product</a>
                     </li>
                 </ul>
             </div>
@@ -35,7 +38,7 @@
     <main class="container-fluid">
         <div class="row">
             <div class="col-3 bg-light text-dark">
-                @RenderSection("Sidebar")
+                @RenderSection("Sidebar",false)
             </div>
             <div class="col-9">
                 @RenderBody()

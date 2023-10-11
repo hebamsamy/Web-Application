@@ -1,12 +1,19 @@
 ﻿
 @using Models;
+@using Web_Application.Models;
 @model Product;
+@{
+    UserDataModel user = ViewData["UserData"] as UserDataModel;
+
+}
+
 @section ScriptingSection{
     <script>
         let list = document.getElementsByClassName("carousel-item")
         list[0].classList.add("active")
     </script>
 }
+<h1 class="lead mb-2 red">Welcome @user.Name</h1>
 
 @section Sidebar{
     <p class="lead mt-5">@Model.Category.Name</p>

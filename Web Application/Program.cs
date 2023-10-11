@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Models;
+using Repository;
 using Web_Application;
 
 public class Program
@@ -24,7 +25,11 @@ public class Program
     {
         WebApplicationBuilder builder =
              WebApplication.CreateBuilder();
-
+        //builder.Services.AddScoped<MyDBContext>();
+        builder.Services.AddScoped(typeof(MyDBContext));
+        builder.Services.AddScoped(typeof(UnitOfWork));
+        builder.Services.AddScoped(typeof(ProductManager));
+        builder.Services.AddScoped(typeof(CategoryManeger));
         builder.Services.AddControllersWithViews();
 
         var webApp = builder.Build();
@@ -34,7 +39,7 @@ public class Program
             RequestPath = ""
 
         });
-        webApp.MapControllerRoute("Default","{Controller=Product}/{Action=Index}/{id?}");
+        webApp.MapControllerRoute("Default","{Controller=Home}/{Action=Index}/{id?}");
         webApp.Run();
 
 

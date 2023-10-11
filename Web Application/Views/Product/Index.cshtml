@@ -1,13 +1,15 @@
 ﻿@using Models;
+@using Web_Application.Models;
 @model List<Product>
 
 @{
     List<string> temp = ViewData["Categories"] as List<string>;
+    UserDataModel user = ViewData["UserData"] as UserDataModel;
 }
 
 <h1 class="display-1 mb-2">Explore Our Products</h1>
 @section Sidebar{
-    <h1 class="lead mb-2 red">Welcome @ViewData["User"]</h1>
+    <h1 class="lead mb-2 red">Welcome @user.Name</h1>
     @foreach (var item in temp)
     {
     <p class="lead">@item</p>  
@@ -24,7 +26,7 @@
                 <p class="card-text">@item.Description</p>
                 <p class="card-text">@item.Price $</p>
                 <p class="card-text">@item.Category.Name</p>
-                <a href="/Product/GetOne/@item.ID" class="btn btn-primary">See Details</a>
+                <a asp-controller="product" asp-action="getone" asp-route-id="@item.ID" asp-route-name="ITI" class="btn btn-primary">See Details</a>
             </div>
         </div>
     }

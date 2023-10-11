@@ -1,0 +1,30 @@
+﻿@using Models;
+@{
+    List<Category> temp = ViewData["Categories"] as List<Category>;
+}
+
+<form asp-action="add" asp-controller="product" method="post">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product name</label>
+        <input type="text" class="form-control" name="Name">
+    </div> <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Price</label>
+        <input type="number" class="form-control" name="Price">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Quantity</label>
+        <input type="number" class="form-control" name="Quantity">
+    </div> <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Description</label>
+        <input type="text" class="form-control" name="Description">
+    </div> <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Catagory</label>
+        <select class="form-control" name="CategoryID">
+            @foreach (var item in temp)
+            {
+                <option value="@item.ID">@item.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

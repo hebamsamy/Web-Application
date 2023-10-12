@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
@@ -54,23 +55,33 @@ namespace Web_Application.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewData["Categories"] = categoryManeger.GetList().ToList();
+            ViewData["Categories"] = GetCategories();
             ViewBag.Title = "Add Product ";
 
             return View();
         }
         [HttpPost]
+        
         public IActionResult Add(AddProductViewModel addProduct)
         {
-            Product prd = new Product();
-            prd.Name = addProduct.Name;
-            prd.Price =addProduct.Price;
-            prd.Quantity =addProduct.Quantity;
-            prd.Description =addProduct.Description;
-            prd.CategoryID =addProduct.CategoryID;
-            productManager.Add(prd);
-            unitOfWork.Commit();
-            return RedirectToAction("Index");
+          if(ModelState.IsValid)
+            {
+                Product prd = new Product();
+                prd.Name = addProduct.Name;
+                prd.Price =addProduct.Price;
+                prd.Quantity =addProduct.Quantity;
+                prd.Description =addProduct.Description;
+                prd.CategoryID =addProduct.CategoryID;
+                productManager.Add(prd);
+                unitOfWork.Commit();
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                ViewData["Categories"] = GetCategories();
+                return View(); 
+            }
         }
         [HttpGet]
         public IActionResult Edit(int id)
@@ -103,6 +114,17 @@ namespace Web_Application.Controllers
             unitOfWork.Commit();
             return RedirectToAction("Index");
         }
+
+        private List<SelectListItem > GetCategories()
+        {
+          return   categoryManeger.GetList().Select(i => new SelectListItem()
+            {
+                Text = i.Name,
+                Value = i.ID.ToString(),
+            }).ToList();
+        }
+
+
 
     }
 }

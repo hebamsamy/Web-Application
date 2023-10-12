@@ -1,30 +1,40 @@
 ﻿@using Models;
+@using Web_Application.Models;
 @{
-    List<Category> temp = ViewData["Categories"] as List<Category>;
+    List<SelectListItem> temp = ViewData["Categories"] as List<SelectListItem>;
 }
+@model AddProductViewModel
 
 <form asp-action="add" asp-controller="product" method="post">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Product name</label>
-        <input type="text" class="form-control" name="Name">
-    </div> <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Product Price</label>
-        <input type="number" class="form-control" name="Price">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div> 
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Product Quantity</label>
-        <input type="number" class="form-control" name="Quantity">
-    </div> <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Product Description</label>
-        <input type="text" class="form-control" name="Description">
-    </div> <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Product Catagory</label>
-        <select class="form-control" name="CategoryID">
-            @foreach (var item in temp)
-            {
-                <option value="@item.ID">@item.Name</option>
-            }
+        <label asp-for="Quantity" class="form-label"></label>
+        <input asp-for="Quantity" class="form-control" >
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+
+    </div> 
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"> </textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div> 
+    <div class="mb-3">
+        <label asp-for="CategoryID" class="form-label"></label>
+        <select asp-for="CategoryID" asp-items="temp" class="form-control">
         </select>
+        <span asp-validation-for="CategoryID" class="text-danger"></span>
+
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

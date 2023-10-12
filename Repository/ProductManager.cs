@@ -14,7 +14,7 @@ namespace Repository
 
         public IQueryable<Product> Get()
         {
-            return GetList().Include(i=>i.ProductAttachments).Include(i => i.Category);
+            return GetList();
         }
 
         public Product GetOneByID(int id)

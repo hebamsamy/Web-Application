@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using Web_Application.Models;
+using ViewModel;
 
 namespace Web_Application.Controllers
 {
@@ -38,7 +39,7 @@ namespace Web_Application.Controllers
 
             ViewData["Categories"] = categoryManeger.GetList().Select(i=>i.Name).ToList();
             
-            List<Product> list=  productManager.Get().ToList();
+            List<ProductVeiwModel> list=  productManager.Get().ToList();
 
             return View(list) ;
         }
@@ -46,9 +47,7 @@ namespace Web_Application.Controllers
         //[Route("/details/{id}")]
         public IActionResult GetOne(int id, string name = "")
         {
-
-            
-            Product product = productManager.GetOneByID(id);
+            ProductVeiwModel product = productManager.GetOneByID(id);
             ViewBag.Title = "Product "+ product.Name;
             return View(product);
         }
@@ -57,7 +56,6 @@ namespace Web_Application.Controllers
         {
             ViewData["Categories"] = GetCategories();
             ViewBag.Title = "Add Product ";
-
             return View();
         }
         [HttpPost]
@@ -66,13 +64,20 @@ namespace Web_Application.Controllers
         {
           if(ModelState.IsValid)
             {
-                Product prd = new Product();
-                prd.Name = addProduct.Name;
-                prd.Price =addProduct.Price;
-                prd.Quantity =addProduct.Quantity;
-                prd.Description =addProduct.Description;
-                prd.CategoryID =addProduct.CategoryID;
-                productManager.Add(prd);
+                foreach (IFormFile file in addProduct.Images)
+                {
+                    FileStream fileStream = new FileStream(
+                        Path.Combine(
+                            Directory.GetCurrentDirectory(),"Content","Images",file.FileName), 
+                        FileMode.Create);
+                    file.CopyTo(fileStream);
+                    fileStream.Position = 0;
+                    addProduct.ImagesURL.Add(file.FileName);
+                }
+
+                
+
+                productManager.Add(addProduct);
                 unitOfWork.Commit();
                 return RedirectToAction("Index");
 
@@ -87,7 +92,7 @@ namespace Web_Application.Controllers
         public IActionResult Edit(int id)
         {
             ViewData["Categories"] = categoryManeger.GetList().ToList();
-            Product product = productManager.GetOneByID(id);
+            ProductVeiwModel product = productManager.GetOneByID(id);
             ViewBag.Title = "Edit Product " + product.Name;
             return View(product);
         }
@@ -109,8 +114,8 @@ namespace Web_Application.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Product product = productManager.GetOneByID(id);
-            productManager.Delete(product);
+            ProductVeiwModel product = productManager.GetOneByID(id);
+            productManager.Delete(product.ToModel());
             unitOfWork.Commit();
             return RedirectToAction("Index");
         }

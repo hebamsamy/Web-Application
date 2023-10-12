@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web_Application.Models
+namespace ViewModel
 {
     public class MultiLines :ValidationAttribute
     {

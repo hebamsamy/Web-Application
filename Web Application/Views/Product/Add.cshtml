@@ -1,11 +1,10 @@
-﻿@using Models;
-@using Web_Application.Models;
+﻿@using ViewModel;
 @{
     List<SelectListItem> temp = ViewData["Categories"] as List<SelectListItem>;
 }
 @model AddProductViewModel
 
-<form asp-action="add" asp-controller="product" method="post">
+<form asp-action="add" asp-controller="product" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control">
@@ -34,7 +33,11 @@
         <select asp-for="CategoryID" asp-items="temp" class="form-control">
         </select>
         <span asp-validation-for="CategoryID" class="text-danger"></span>
-
+    </div>
+    <div class="mb-3">
+        <label asp-for="Images" class="form-label"></label>
+        <input asp-for="Images" class="form-control" multiple>
+        <span asp-validation-for="Images" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

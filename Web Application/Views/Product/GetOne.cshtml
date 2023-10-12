@@ -1,7 +1,7 @@
 ﻿
-@using Models;
+@using ViewModel;
 @using Web_Application.Models;
-@model Product;
+@model ProductVeiwModel;
 @{
     UserDataModel user = ViewData["UserData"] as UserDataModel;
 
@@ -16,19 +16,19 @@
 <h1 class="lead mb-2 red">Welcome @user.Name</h1>
 
 @section Sidebar{
-    <p class="lead mt-5">@Model.Category.Name</p>
+    <p class="lead mt-5">@Model.CategoryName</p>
     <p class="lead mt-2">@Model.Price $</p>
     <p class="lead mt-2">@Model.Description</p>
 }
 <h1 class="display-1">Product @Model.Name Details</h1>
-@if (Model.ProductAttachments.Count > 0)
+@if (Model.Images.Count > 0)
 {
     <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-            @foreach (var item in Model.ProductAttachments)
+            @foreach (var item in Model.Images)
             {
                 <div class="carousel-item">
-                    <img src="/Images/@item.Image" class="d-block w-100" alt="...">
+                    <img src="/Images/@item" class="d-block w-100" alt="...">
                 </div>
 
             }

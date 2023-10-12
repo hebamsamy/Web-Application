@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel;
 
 namespace Repository
 {
@@ -12,19 +13,24 @@ namespace Repository
     {
         public ProductManager(MyDBContext myDBContext) : base(myDBContext) { }
 
-        public IQueryable<Product> Get()
+        public List<ProductVeiwModel> Get()
         {
-            return GetList();
+            return GetList().Select(i=> i.ToVeiwModel()).ToList();
         }
 
-        public Product GetOneByID(int id)
+        public ProductVeiwModel GetOneByID(int id)
         {
             return Get().Where(i => i.ID == id).FirstOrDefault();
+        }
+        public void Add(AddProductViewModel addProduct)
+        {
+            var temp = addProduct.ToModel();
+            base.Add(temp);
         }
 
         public void Edit (Product newPrd ,int id)
         {
-            var oldprod = GetOneByID(id);
+            var oldprod = GetList().Where(i => i.ID == id).FirstOrDefault();
             oldprod.Name = newPrd.Name;        
             oldprod.Price = newPrd.Price;        
             oldprod.Quantity = newPrd.Quantity;        
@@ -37,7 +43,7 @@ namespace Repository
 
         public void Delete(int Id)
         {
-            var oldprod = GetOneByID(Id);
+            var oldprod = GetList().Where(i => i.ID == Id).FirstOrDefault();
             Delete(oldprod);
             /////
 

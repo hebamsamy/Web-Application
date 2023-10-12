@@ -20,13 +20,21 @@
     @foreach (Product item in Model)
     {
         <div class="card col-4">
+            @if (@item.ProductAttachments.Count == 0)
+            {
+                <img src="/Images/notfound.png" class="card-img-top" alt="...">
+            }
+            else
+            {
             <img src="/Images/@item.ProductAttachments.FirstOrDefault()?.Image" class="card-img-top" alt="...">
+            }
             <div class="card-body">
                 <h5 class="card-title">@item.Name</h5>
-                <p class="card-text">@item.Description</p>
                 <p class="card-text">@item.Price $</p>
                 <p class="card-text">@item.Category.Name</p>
                 <a asp-controller="product" asp-action="getone" asp-route-id="@item.ID" asp-route-name="ITI" class="btn btn-primary">See Details</a>
+                <a asp-controller="product" asp-action="edit" asp-route-id="@item.ID" class="btn btn-warning">Update</a>
+                <a asp-controller="product" asp-action="delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
             </div>
         </div>
     }

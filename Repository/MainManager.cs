@@ -33,6 +33,16 @@ namespace Repository
                 Quary = Quary.Where(Filter);
             }
             Quary = Quary.OrderBy(OrderBy,IsAscending);
+            if (PageIndex < 1)
+            {
+                PageIndex = 1;
+            }
+            //   3 =>    13/6=2.1
+            var temp = Set.Count() / Convert.ToDouble(PageSize);
+            if (PageIndex > temp +1)
+            {
+                PageIndex = 1;
+            }
             int ToBeSkiped = (PageIndex - 1) * PageSize;
             return Quary.Skip(ToBeSkiped).Take(PageSize);
         }

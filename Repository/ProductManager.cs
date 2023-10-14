@@ -19,7 +19,7 @@ namespace Repository
             return GetList().Select(i=> i.ToVeiwModel()).ToList();
         }
 
-        public IQueryable<Product> Search(
+        public PaginationViewModel<List<ProductVeiwModel>> Search(
             string? Name = null,
             string? CategoryName = null,
             int CategoryID = 0,
@@ -35,19 +35,19 @@ namespace Repository
             var oldFilter = filter;
             if (!string.IsNullOrEmpty( Name))
             {
-                filter = filter.And(i => i.Name.ToLower().Contains(Name.ToLower()));
+                filter = filter.Or(i => i.Name.ToLower().Contains(Name.ToLower()));
             }
             if (!string.IsNullOrEmpty(CategoryName))
             {
-                filter = filter.And(i => i.Category.Name.ToLower().Contains(CategoryName.ToLower()));
+                filter = filter.Or(i => i.Category.Name.ToLower().Contains(CategoryName.ToLower()));
             }
             if(CategoryID != 0)
             {
-                filter = filter.And(i=>i.CategoryID == CategoryID);
+                filter = filter.Or(i=>i.CategoryID == CategoryID);
             }
             if (ProductID != 0)
             {
-                filter = filter.And(i => i.ID == ProductID);
+                filter = filter.Or(i => i.ID == ProductID);
             }
             if (Price != 0)
             {
@@ -57,7 +57,15 @@ namespace Repository
             {
                 filter = null;
             }
-            return base.Get(filter, OrderBy, IsAscending, PageSize, PageIndex);
+            var count = (filter!=null)? GetList().Where(filter).Count(): base.GetList().Count();
+            var result =  Get(filter, OrderBy, IsAscending, PageSize, PageIndex);
+            return new PaginationViewModel<List<ProductVeiwModel>>()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                Count = count,
+                Data = result.Select(i => i.ToVeiwModel()).ToList()
+            };
         }
         public ProductVeiwModel GetOneByID(int id)
         {

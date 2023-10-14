@@ -56,8 +56,9 @@ namespace Web_Application.Controllers
             int PageIndex= 1
             )
         {
+            ViewData["Categories"] = GetCategories();
             var data = productManager.Search(Name,CategoryName,CategoryID,ID,Price,OrderBy,IsAscending,PageSize,PageIndex);
-            return View();
+            return View(data);
         }
         //[Route("/details/{id}")]
         public IActionResult GetOne(int id, string name = "")

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqKit;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,41 @@ namespace Repository
             return GetList().Select(i=> i.ToVeiwModel()).ToList();
         }
 
+        public IQueryable<Product> Search(
+            string? Name = null,
+            string? CategoryName = null,
+            int CategoryID = 0,
+            int ProductID = 0,
+            string OrderBy = "ID",
+            bool IsAscending = false,
+            int PageSize = 6,
+            int PageIndex = 1
+            )
+        {
+            var filter = PredicateBuilder.New<Product>();
+            var oldFilter = filter;
+            if (!string.IsNullOrEmpty( Name))
+            {
+                filter = filter.And(i => i.Name.ToLower().Contains(Name.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(CategoryName))
+            {
+                filter = filter.And(i => i.Category.Name.ToLower().Contains(CategoryName.ToLower()));
+            }
+            if(CategoryID != 0)
+            {
+                filter = filter.And(i=>i.CategoryID == CategoryID);
+            }
+            if (ProductID != 0)
+            {
+                filter = filter.And(i => i.ID == ProductID);
+            }
+            if (oldFilter == filter)
+            {
+                filter = null;
+            }
+            return base.Get(filter, OrderBy, IsAscending, PageSize, PageIndex);
+        }
         public ProductVeiwModel GetOneByID(int id)
         {
             return Get().Where(i => i.ID == id).FirstOrDefault();

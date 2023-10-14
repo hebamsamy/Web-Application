@@ -4,6 +4,7 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,21 @@ namespace Repository
             Set = dBContext.Set<T>();
         }
 
+        public IQueryable<T> Get(
+            Expression<Func<T,bool>> Filter,
+            string OrderBy,
+            bool IsAscending,
+            int PageSize,
+            int PageIndex)
+        {
+            var Quary= Set.AsQueryable();
+            if (Filter != null) { 
+                Quary = Quary.Where(Filter);
+            }
+            Quary = Quary.OrderBy(OrderBy,IsAscending);
+            int ToBeSkiped = (PageIndex - 1) * PageSize;
+            return Quary.Skip(ToBeSkiped).Take(PageSize);
+        }
         public IQueryable<T> GetList()
         {
             return Set.AsQueryable();

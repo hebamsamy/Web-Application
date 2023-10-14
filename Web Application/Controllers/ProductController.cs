@@ -44,6 +44,20 @@ namespace Web_Application.Controllers
             return View(list) ;
         }
 
+        public IActionResult Search(
+            int ID = 0,
+            string? Name = null,
+            string? CategoryName = null,
+            int CategoryID = 0,
+            string OrderBy ="Price",
+            bool IsAscending = false,
+            int PageSize = 6,
+            int PageIndex= 1
+            )
+        {
+            var data = productManager.Search(Name,CategoryName,CategoryID,ID,OrderBy,IsAscending,PageSize,PageIndex);
+            return RedirectToAction("Index");
+        }
         //[Route("/details/{id}")]
         public IActionResult GetOne(int id, string name = "")
         {

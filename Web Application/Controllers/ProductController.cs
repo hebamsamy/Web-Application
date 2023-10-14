@@ -49,14 +49,15 @@ namespace Web_Application.Controllers
             string? Name = null,
             string? CategoryName = null,
             int CategoryID = 0,
+            double Price = 0,
             string OrderBy ="Price",
             bool IsAscending = false,
             int PageSize = 6,
             int PageIndex= 1
             )
         {
-            var data = productManager.Search(Name,CategoryName,CategoryID,ID,OrderBy,IsAscending,PageSize,PageIndex);
-            return RedirectToAction("Index");
+            var data = productManager.Search(Name,CategoryName,CategoryID,ID,Price,OrderBy,IsAscending,PageSize,PageIndex);
+            return View();
         }
         //[Route("/details/{id}")]
         public IActionResult GetOne(int id, string name = "")

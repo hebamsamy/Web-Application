@@ -24,6 +24,7 @@ namespace Repository
             string? CategoryName = null,
             int CategoryID = 0,
             int ProductID = 0,
+            double Price = 0,
             string OrderBy = "ID",
             bool IsAscending = false,
             int PageSize = 6,
@@ -47,6 +48,10 @@ namespace Repository
             if (ProductID != 0)
             {
                 filter = filter.And(i => i.ID == ProductID);
+            }
+            if (Price != 0)
+            {
+                filter = filter.And(i => i.Price <= Price);
             }
             if (oldFilter == filter)
             {

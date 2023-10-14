@@ -30,6 +30,19 @@ namespace ViewModel
                 ProductAttachments = ProductAttachments
             };
         }
+        public static AddProductViewModel ToAddViewModel(this Product Product)
+        {
+            return new AddProductViewModel() 
+            {
+                ID = Product.ID,
+                Name = Product.Name,
+                Price = Product.Price,
+                Quantity = Product.Quantity,
+                Description = Product.Description,
+                CategoryID = Product.CategoryID,
+                ImagesURL = Product.ProductAttachments.Select(x =>x.Image).ToList(),
+            };
+        }
         public static Product ToModel(this ProductVeiwModel addProduct)
         {
             var ProductAttachments = new List<ProductAttachment>();

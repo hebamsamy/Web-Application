@@ -2,12 +2,19 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/ProjectEvaluation/web application.metadata.v7.bin
+
 /.vs
-/Models/bin/Debug/net7.0
-/Models/obj/Debug/net7.0
+/Models/bin
 /Models/obj
-/Web Application/bin/Debug/net7.0
+/Web Application/bin
 /Web Application/obj
-/Repository/bin/Debug/net7.0
+/Repository/bin
 /Repository/obj
+/ViewModel/bin
+/ViewModel/obj
+/ViewModel/bin/Debug/net7.0/ViewModel.dll
+/ViewModel/bin/Debug/net7.0/ViewModel.pdb
+/ViewModel/obj/Debug/net7.0/ref/ViewModel.dll
+/ViewModel/obj/Debug/net7.0/refint/ViewModel.dll
+/ViewModel/obj/Debug/net7.0/ViewModel.dll
+/ViewModel/obj/Debug/net7.0/ViewModel.pdb

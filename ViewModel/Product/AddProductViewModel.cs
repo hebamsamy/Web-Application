@@ -26,5 +26,7 @@ namespace ViewModel
         [Required(ErrorMessage = "Please, Provide atleast one image")]
         public IFormFileCollection Images { get; set; }
         public List<string> ImagesURL { get; set; } = new List<string>();
+        //
+        public bool KeepImages { get; set; } = true;
     }
 }

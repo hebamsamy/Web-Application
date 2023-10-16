@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Models
 {
-    public class MyDBContext : DbContext
+    public class MyDBContext : IdentityDbContext<User>
     {
+        public MyDBContext(DbContextOptions options) : base(options)
+        { }
         public  DbSet<Category> Categories { get; set; }
         public  DbSet<Product> Products { get; set; }
         public  DbSet<ProductAttachment> ProductAttachments { get; set; }
@@ -19,13 +22,6 @@ namespace Models
             modelBuilder.ApplyConfiguration<ProductAttachment>(new ProductAttachmentConfiguration());
 
             base.OnModelCreating(modelBuilder);
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=.; Initial Catalog=Store; 
-                 Integrated Security=True; TrustServerCertificate=True;");
-
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

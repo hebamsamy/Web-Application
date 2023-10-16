@@ -34,13 +34,27 @@
                         <a class="nav-link" asp-controller="Product" asp-action="Add">Add Product</a>
                     </li>
 
+                    @if (User.Identity.Name == null){
 
-                     <li class="nav-item">
-                        <a class="btn btn-info" asp-controller="Account" asp-action="Signin">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-success" asp-controller="Account" asp-action="Signup">Sign Up</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="btn btn-info" asp-controller="Account" asp-action="Signin">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-success" asp-controller="Account" asp-action="Signup">Sign Up</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <span>Welcome @User.Identity.Name</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="SignOut">Sign Out</a>
+                        </li>
+                        
+                    }
+
+
                 </ul>
             </div>
         </div>

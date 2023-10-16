@@ -25,7 +25,7 @@ namespace Web_Application.Controllers
                 IdentityResult result= await  accManger.SignUp(viewModel);
                 if (result.Succeeded)
                 {
-                     return RedirectToAction("Index","Product");
+                     return RedirectToAction("SignIn");
                 }
                 else
                 {
@@ -37,6 +37,37 @@ namespace Web_Application.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult SignIn(string ReturnUrl = "/")
+        {
+            var veiwModel = new UserSignInViewModel() { ReturnUrl= ReturnUrl };
+            return View(veiwModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SignIn(UserSignInViewModel viewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = await accManger.SignIn(viewModel);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Product");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invaild User Name Or Password");
+                    return View();
+                }
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SignOut()
+        {
+             accManger.SignOut();
+            return RedirectToAction("SignIn");
         }
     }
 }

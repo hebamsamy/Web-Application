@@ -5,9 +5,11 @@ using Models;
 using Repository;
 using Web_Application.Models;
 using ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web_Application.Controllers
 {
+    //[Authorize]
     public class ProductController : Controller
     {
         ProductManager productManager;
@@ -67,6 +69,7 @@ namespace Web_Application.Controllers
             ViewBag.Title = "Product "+ product.Name;
             return View(product);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
@@ -75,7 +78,7 @@ namespace Web_Application.Controllers
             return View();
         }
         [HttpPost]
-        
+        [Authorize]
         public IActionResult Add(AddProductViewModel addProduct)
         {
           if(ModelState.IsValid)

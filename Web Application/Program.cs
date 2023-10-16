@@ -36,9 +36,24 @@ public class Program
                 builder.Configuration.GetConnectionString("MyDB"));
         });
 
-        builder.Services.AddIdentity<User, IdentityRole>(i => i.User.RequireUniqueEmail = true)
+        builder.Services.AddIdentity<User, IdentityRole>(i => {
+            i.User.RequireUniqueEmail = true;
+            i.SignIn.RequireConfirmedPhoneNumber = false;
+            i.SignIn.RequireConfirmedEmail = false;
+            i.SignIn.RequireConfirmedAccount = false;
+            })
             .AddEntityFrameworkStores<MyDBContext>();
-
+        builder.Services.Configure<IdentityOptions>(i =>
+        {
+            i.Password.RequireNonAlphanumeric = false;
+            i.Password.RequireUppercase = false;
+            
+        });
+        builder.Services.ConfigureApplicationCookie(i =>
+        {
+            i.LoginPath = "/Account/SignIn";
+            
+        });
         builder.Services.AddScoped(typeof(UnitOfWork));
         builder.Services.AddScoped(typeof(ProductManager));
         builder.Services.AddScoped(typeof(CategoryManeger));

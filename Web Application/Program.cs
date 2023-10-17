@@ -58,6 +58,7 @@ public class Program
         builder.Services.AddScoped(typeof(ProductManager));
         builder.Services.AddScoped(typeof(CategoryManeger));
         builder.Services.AddScoped(typeof(AccountManger));
+        builder.Services.AddScoped(typeof(RoleManager));
         builder.Services.AddControllersWithViews(); 
         #endregion
 

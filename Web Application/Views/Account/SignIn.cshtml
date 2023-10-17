@@ -16,7 +16,7 @@
         <h1 class="display-1">Welcome Back :)</h1>
         <form asp-action="SignIn" asp-controller="Account" method="post">
             <div asp-validation-summary="All"></div>
-            <input asp-for="ReturnUrl" value="@Model.ReturnUrl" disabled/>
+            @* <input asp-for="ReturnUrl" value="@Model.ReturnUrl" disabled/> *@
             <div class="mb-3">
                 <label asp-for="UserName" class="form-label"></label>
                 <input asp-for="UserName" class="form-control">

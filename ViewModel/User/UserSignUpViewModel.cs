@@ -43,5 +43,6 @@ namespace ViewModel
         [Compare("Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        public string Role { get; set; } = "User";
     }
 }

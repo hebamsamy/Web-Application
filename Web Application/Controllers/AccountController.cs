@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Repository;
 using ViewModel;
 
@@ -8,13 +9,16 @@ namespace Web_Application.Controllers
     public class AccountController : Controller
     {
         AccountManger accManger;
-        public AccountController(AccountManger _accManger)
+        RoleManager roleManager;
+        public AccountController(AccountManger _accManger,RoleManager _roleManager)
         {
             accManger = _accManger;
+            roleManager = _roleManager;
         }
         [HttpGet]
         public IActionResult SignUp()
         {
+            ViewData["list"] = RoleList();
             return View();
         }
         [HttpPost]
@@ -33,9 +37,11 @@ namespace Web_Application.Controllers
                     {
                         ModelState.AddModelError("", item.Description);
                     }
+                    ViewData["list"] = RoleList();
                     return View();
                 }
             }
+            ViewData["list"] = RoleList();
             return View();
         }
 
@@ -68,6 +74,14 @@ namespace Web_Application.Controllers
         {
              accManger.SignOut();
             return RedirectToAction("SignIn");
+        }
+        private List<SelectListItem> RoleList()
+        {
+            return roleManager.GetList().Select(r => new SelectListItem()
+            {
+                Value = r.Name,
+                Text  = r.Name
+            }).ToList();
         }
     }
 }

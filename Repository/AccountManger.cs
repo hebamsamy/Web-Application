@@ -13,7 +13,10 @@ namespace Repository
     {
         UserManager<User> userManager;
         SignInManager<User> signInManager;
-        public AccountManger(MyDBContext myDBContext, UserManager<User> _userManager, SignInManager<User> _signInManager) 
+        public AccountManger(MyDBContext myDBContext,
+            UserManager<User> _userManager, 
+            SignInManager<User> _signInManager
+         ) 
             : base(myDBContext) {
             userManager = _userManager;
             signInManager = _signInManager;
@@ -21,7 +24,14 @@ namespace Repository
 
         public async Task<IdentityResult> SignUp(UserSignUpViewModel Viewmodel)
         {
-            return await userManager.CreateAsync(Viewmodel.ToModel(),Viewmodel.Password);
+            var model = Viewmodel.ToModel();
+            var result = await userManager.CreateAsync(model,Viewmodel.Password);
+            if (result.Succeeded)
+            {
+                result = await userManager.AddToRoleAsync(model, Viewmodel.Role);
+            }
+            return result;
+
         }
         public async Task<SignInResult> SignIn (UserSignInViewModel viewModel)
         {

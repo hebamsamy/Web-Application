@@ -41,5 +41,16 @@ namespace Repository
         public async void SignOut() {
             await signInManager.SignOutAsync();
         }
+
+        public async Task<IdentityResult> AssignRolesToUser(string UserId,List<string> roles)
+        {
+            var user= await userManager.FindByIdAsync(UserId);
+            if (user != null)
+            {
+                return await userManager.AddToRolesAsync(user, roles);
+            }
+            return new IdentityResult();
+        } 
+
     }
 }

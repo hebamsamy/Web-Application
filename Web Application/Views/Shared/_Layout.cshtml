@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    var temp2 = User.Claims;
+    var temp =  User.Identities;
+}
 <!Doctype html>
 <html>
 <head>
@@ -30,9 +33,13 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Product" asp-action="Search">Search</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Product" asp-action="Add">Add Product</a>
-                    </li>
+                    @if (User.HasClaim(i => i.Value == "Vendor" || i.Value == "Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="Add">Add Product</a>
+                        </li>
+                        
+                    }
 
                     @if (User.Identity.Name == null){
 

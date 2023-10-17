@@ -25,15 +25,17 @@
         </form>
         @if(ViewBag.Success== 1)
         {
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success alert-dismissible" role="alert">
                 <h4 class="alert-heading">Well done!</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <p>you successfully Add new Role to Website </p>
             </div>
         }
         else if (ViewBag.Success == 2)
         {
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger  alert-dismissible" role="alert">
                 <h4 class="alert-heading">Sorry Someting happend!</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <p>you cant Add this Role to Website </p>
             </div>
         }

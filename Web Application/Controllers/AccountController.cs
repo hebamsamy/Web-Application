@@ -48,8 +48,9 @@ namespace Web_Application.Controllers
         [HttpGet]
         public IActionResult SignIn(string ReturnUrl = "/")
         {
-            var veiwModel = new UserSignInViewModel() { ReturnUrl= ReturnUrl };
-            return View(veiwModel);
+            //var veiwModel = new UserSignInViewModel() { ReturnUrl= ReturnUrl };
+            //return View(veiwModel);
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> SignIn(UserSignInViewModel viewModel)

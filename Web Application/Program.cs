@@ -4,6 +4,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Models;
 using Repository;
+using Repository.Helpers;
 using Web_Application;
 
 public class Program
@@ -59,6 +60,7 @@ public class Program
         builder.Services.AddScoped(typeof(CategoryManeger));
         builder.Services.AddScoped(typeof(AccountManger));
         builder.Services.AddScoped(typeof(RoleManager));
+        builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
         builder.Services.AddControllersWithViews(); 
         #endregion
 

@@ -69,7 +69,7 @@ namespace Web_Application.Controllers
             ViewBag.Title = "Product "+ product.Name;
             return View(product);
         }
-        [Authorize]
+        [Authorize(Roles ="Admin,Vendor")]
         [HttpGet]
         public IActionResult Add()
         {
@@ -78,7 +78,7 @@ namespace Web_Application.Controllers
             return View();
         }
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin,Vendor")]
         public IActionResult Add(AddProductViewModel addProduct)
         {
           if(ModelState.IsValid)
@@ -108,6 +108,7 @@ namespace Web_Application.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Admin,Vendor")]
         public IActionResult Edit(int id)
         {
             ViewData["Categories"] = GetCategories();
@@ -116,6 +117,7 @@ namespace Web_Application.Controllers
             return View(product);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Vendor")]
         public IActionResult Edit(AddProductViewModel addProduct)
         {
             if (ModelState.IsValid)
@@ -145,6 +147,7 @@ namespace Web_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Vendor")]
         public IActionResult Delete(int id)
         {
             productManager.Delete(id);

@@ -67,7 +67,7 @@ public class Program
         builder.Services.AddScoped(typeof(AccountManger));
         builder.Services.AddScoped(typeof(RoleManager));
         builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
-        builder.Services.AddControllers(options =>
+        builder.Services.AddControllersWithViews(options =>
         {
             options.Filters.Add<ExceptionHandler>();
         }

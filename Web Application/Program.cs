@@ -7,6 +7,7 @@ using Repository;
 using Repository.Helpers;
 using System.Data;
 using Web_Application;
+using Web_Application.Filters;
 
 public class Program
 {
@@ -66,7 +67,11 @@ public class Program
         builder.Services.AddScoped(typeof(AccountManger));
         builder.Services.AddScoped(typeof(RoleManager));
         builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
-        builder.Services.AddControllersWithViews(); 
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ExceptionHandler>();
+        }
+            ); 
         #endregion
 
         var webApp = builder.Build();
@@ -81,8 +86,9 @@ public class Program
         webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.MapControllerRoute("Default", "{Controller=Home}/{Action=Index}/{id?}");
+        webApp.MapControllerRoute("Default", "{area:exists}/{Controller=Home}/{Action=Index}/{id?}");
 
-# endregion
+        #endregion
 
         webApp.Run();
 

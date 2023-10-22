@@ -6,6 +6,7 @@ using Repository;
 using Web_Application.Models;
 using ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Web_Application.Filters;
 
 namespace Web_Application.Controllers
 {
@@ -34,16 +35,18 @@ namespace Web_Application.Controllers
                 picture="6.jpg"
             };
         }
+        //[ExceptionHandler]
         public IActionResult Index()
         {
-            ViewBag.Title = "Product List";
-            ViewData["User"] = "Heba";
+                ViewBag.Title = "Product List";
+                ViewData["User"] = "Heba";
 
-            ViewData["Categories"] = categoryManeger.GetList().Select(i=>i.Name).ToList();
+                ViewData["Categories"] = categoryManeger.GetList().Select(i=>i.Name).ToList();
             
-            List<ProductVeiwModel> list=  productManager.Get().ToList();
+                List<ProductVeiwModel> list=  productManager.Get().ToList();
 
-            return View(list) ;
+                return View(list) ;
+            
         }
 
         public IActionResult Search(
@@ -146,6 +149,7 @@ namespace Web_Application.Controllers
             
         }
 
+        [ProductDetetingAudit]
         [HttpGet]
         [Authorize(Roles = "Admin,Vendor")]
         public IActionResult Delete(int id)

@@ -35,6 +35,7 @@ namespace Repository
         }
         public async Task<SignInResult> SignIn (UserSignInViewModel viewModel)
         {
+
            return await signInManager.PasswordSignInAsync(viewModel.UserName, 
                   viewModel.Password,viewModel.RememberMe,true);
         }

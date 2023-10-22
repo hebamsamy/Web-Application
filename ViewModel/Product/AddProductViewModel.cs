@@ -10,7 +10,8 @@ namespace ViewModel
         [Required(ErrorMessage = "Please, Provide a valid Product Name")]
         [StringLength(50, ErrorMessage = "Must be more 5 letter", MinimumLength = 5)]
         public string Name { get; set; }
-        [MultiLines]
+        //[MultiLines]
+        [Required, StringLength(300,MinimumLength =10)]
         public string Description { get; set; }
 
         [Column(TypeName = "number")]

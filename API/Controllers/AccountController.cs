@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using System.Text;
@@ -18,18 +19,22 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await accManger.SignIn(viewModel);
-                if (result.Succeeded)
+                var Token = await accManger.SignIn(viewModel);
+                if(Token == "IsLockedOut")
                 {
-                    return Ok();
+                    return new JsonResult("Account Under Review!!");
                 }
-                else if (result.IsLockedOut)
+                else if (!string.IsNullOrEmpty(Token))
                 {
-                    return new ObjectResult("Your Account is Under Review");
+                    return new JsonResult(new
+                    {
+                        massage = "You Successfully Logged in",
+                        token = Token
+                    }); 
                 }
                 else
                 {
-                    return new ObjectResult("User name or Password");
+                    return new JsonResult("User name or Password Not Valid");
                 }
             }
             var str = new StringBuilder();
@@ -41,7 +46,7 @@ namespace API.Controllers
                 }
             }
 
-            return new ObjectResult(str);
+            return new JsonResult(str.ToString());
         }
     
 

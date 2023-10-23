@@ -1,10 +1,14 @@
 ﻿using API.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Repository;
 using Repository.Helpers;
+using System.Text;
 
 public class Program
 {
@@ -19,7 +23,6 @@ public class Program
             i.UseLazyLoadingProxies().UseSqlServer(
                 builder.Configuration.GetConnectionString("MyDB"));
         });
-
         builder.Services.AddIdentity<User, IdentityRole>(i => {
             i.Lockout.MaxFailedAccessAttempts = 2;
             i.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
@@ -48,11 +51,35 @@ public class Program
         builder.Services.AddScoped(typeof(AccountManger));
         builder.Services.AddScoped(typeof(RoleManager));
         builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
+        
         builder.Services.AddControllers(options =>
         {
             options.Filters.Add<ExceptionHandler>();
-        }
-            );
+        }).AddNewtonsoftJson();
+
+        builder.Services.AddAuthentication(option =>
+        {
+            option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(option =>
+        {
+            option.SaveToken = true;
+            option.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JWT:Key"]!))
+            };
+        });
+        builder.Services.AddCors(option =>
+        {
+            option.AddDefaultPolicy(i =>
+            i.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+        });
         #endregion
 
         var webApp = builder.Build();
@@ -65,6 +92,7 @@ public class Program
 
         });
         webApp.UseRouting();
+        webApp.UseCors();
         webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.MapControllerRoute("Default", "{Controller=Home}/{Action=Index}/{id?}");

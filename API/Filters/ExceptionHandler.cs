@@ -22,10 +22,11 @@ namespace API.Filters
                 $"{context.Exception.StackTrace}"
                 );
 
-            context.Result = new ViewResult()
-            {
-                ViewName = "Error",
-            };
+            context.Result = new ObjectResult(
+                new
+                {
+                    massage= context.Exception.Message,
+                });
             
             base.OnException(context);
         }

@@ -2,10 +2,16 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
+using LinqKit;
 
 namespace Repository
 {
@@ -13,13 +19,16 @@ namespace Repository
     {
         UserManager<User> userManager;
         SignInManager<User> signInManager;
+        IConfiguration configuration;
         public AccountManger(MyDBContext myDBContext,
             UserManager<User> _userManager, 
-            SignInManager<User> _signInManager
+            SignInManager<User> _signInManager,
+            IConfiguration _configuration
          ) 
             : base(myDBContext) {
             userManager = _userManager;
             signInManager = _signInManager;
+            configuration = _configuration;
         }
 
         public async Task<IdentityResult> SignUp(UserSignUpViewModel Viewmodel)
@@ -33,11 +42,51 @@ namespace Repository
             return result;
 
         }
-        public async Task<SignInResult> SignIn (UserSignInViewModel viewModel)
+        public async Task<string> SignIn (UserSignInViewModel viewModel)
         {
+            List<Claim> claims = new List<Claim>();
+            var user= await userManager.FindByNameAsync(viewModel.UserName);
 
-           return await signInManager.PasswordSignInAsync(viewModel.UserName, 
-                  viewModel.Password,viewModel.RememberMe,true);
+            if (user != null)
+            {
+                var roles= await userManager.GetRolesAsync(user);
+                roles.ForEach(role =>
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+
+                });
+                claims.Add(new Claim(ClaimTypes.NameIdentifier,user.Id));
+
+            
+               var result=  await signInManager.PasswordSignInAsync(viewModel.UserName, 
+                      viewModel.Password,viewModel.RememberMe,true);
+                if(result.Succeeded)
+                {
+                    //make token
+                    //Jwt => Json Web Token  // Bearer
+               
+                    JwtSecurityToken jwtSecurity = new JwtSecurityToken(
+                       claims: claims,
+                       expires:DateTime.Now.AddDays(1),
+                       signingCredentials: new SigningCredentials(
+                                key: new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Key"]!)),
+                                algorithm: SecurityAlgorithms.HmacSha256
+                            ));
+                   return new JwtSecurityTokenHandler().WriteToken(jwtSecurity);
+                }
+                else if (result.IsLockedOut)
+                {
+                    return "IsLockedOut";
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
         public async void SignOut() {
             await signInManager.SignOutAsync();

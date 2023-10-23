@@ -23,7 +23,7 @@ namespace API.Controllers
             var list = productManager.Get();
             return new ObjectResult(list);
         }
-
+        [Authorize(Roles ="Admin,Vendor")]
         public IActionResult Search(
             string? Name = null,
             string? CategoryName = null,
@@ -34,15 +34,15 @@ namespace API.Controllers
             bool IsAscending = false,
             int PageSize = 6,
             int PageIndex = 1) {
-
             var list = productManager.Search(Name,CategoryName,CategoryID,ProductID,Price,OrderBy,IsAscending,PageSize,PageIndex);
             return new ObjectResult(list);
         }
 
         [HttpPost]
-        [Authorize]
-        public IActionResult Add(AddProductViewModel addProduct)
+        [Authorize(Roles ="Admin,Vendor")]
+        public IActionResult Add([FromForm]AddProductViewModel addProduct)
         {
+            var user = User;
             if (ModelState.IsValid)
             {
                 foreach (IFormFile file in addProduct.Images)

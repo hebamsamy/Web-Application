@@ -63,11 +63,11 @@ namespace Web_Application.Controllers
             if(ModelState.IsValid)
             {
                 var result = await accManger.SignIn(viewModel);
-                if(result.Succeeded)
+                if(!string.IsNullOrEmpty(result))
                 {
                     return RedirectToAction("Index", "Product");
                 }
-                else if (result.IsLockedOut)
+                else if (result== "IsLockedOut")
                 {
                     ModelState.AddModelError("", "Your Account is Under Reivew");
                     return View();

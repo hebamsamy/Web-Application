@@ -23,7 +23,7 @@ namespace API.Controllers
             var list = productManager.Get();
             return new ObjectResult(list);
         }
-        [Authorize(Roles ="Admin,Vendor")]
+        
         public IActionResult Search(
             string? Name = null,
             string? CategoryName = null,

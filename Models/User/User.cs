@@ -13,6 +13,8 @@ namespace Models
         public string LastName {  get; set; }
         public string NationalID {  get; set; }
         public string Picture {  get; set; }
+        public virtual ICollection<WishListItem> WishList { get; set; }
+        public virtual ICollection<CartItem> CartList { get; set; }
 
     }
 }

@@ -50,6 +50,7 @@ public class Program
         builder.Services.AddScoped(typeof(CategoryManeger));
         builder.Services.AddScoped(typeof(AccountManger));
         builder.Services.AddScoped(typeof(RoleManager));
+        builder.Services.AddScoped(typeof(CartManager));
         builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
         
         builder.Services.AddControllers(options =>
@@ -96,6 +97,7 @@ public class Program
         webApp.UseAuthentication();
         webApp.UseAuthorization();
         webApp.MapControllerRoute("Default", "{Controller=Home}/{Action=Index}/{id?}");
+        //webApp.MapControllers();
 
         #endregion
 
